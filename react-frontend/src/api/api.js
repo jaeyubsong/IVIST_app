@@ -4,7 +4,7 @@ export const fetchData = async () => {
   console.log("fetchData is called");
   const result = await axios({
     method: 'post',
-    url: 'http://localhost:5000/vbs/getData',
+    url: 'http://143.248.49.97:5000/vbs/getData',
     headers: {
       "Access-Control-Allow-Origin": "*"
     }
@@ -17,7 +17,7 @@ export const sendQuery = async (myData) => {
    console.log(myData)
    const result = await axios({
      method: 'post',
-     url: 'http://localhost:5000/vbs/query',
+     url: 'http://143.248.49.97:5000/vbs/query',
      headers: {
        "Access-Control-Allow-Origin": "*"
      },
