@@ -36,23 +36,23 @@ export const objectOptions = [
     label: 'boat'
   },
   {
-    value: 'traffic light',
+    value: 'traffic_light',
     label: 'traffic light'
   },
   {
-    value: 'fire hydrant',
+    value: 'fire_hydrant',
     label: 'fire hydrant'
   },
   {
-    value: 'street sign',
+    value: 'street_sign',
     label: 'street sign'
   },
   {
-    value: 'stop sign',
+    value: 'stop_sign',
     label: 'stop sign'
   },
   {
-    value: 'parking meter',
+    value: 'parking_meter',
     label: 'parking meter'
   },
   {
@@ -116,7 +116,7 @@ export const objectOptions = [
     label: 'shoe'
   },
   {
-    value: 'eye glasses',
+    value: 'eye_glasses',
     label: 'eye glasses'
   },
   {
@@ -144,7 +144,7 @@ export const objectOptions = [
     label: 'snowboard'
   },
   {
-    value: 'sports ball',
+    value: 'sports_ball',
     label: 'sports ball'
   },
   {
@@ -152,11 +152,11 @@ export const objectOptions = [
     label: 'kite'
   },
   {
-    value: 'baseball bat',
+    value: 'baseball_bat',
     label: 'baseball bat'
   },
   {
-    value: 'baseball glove',
+    value: 'baseball_glove',
     label: 'baseball glove'
   },
   {
@@ -168,7 +168,7 @@ export const objectOptions = [
     label: 'surfboard'
   },
   {
-    value: 'tennis racket',
+    value: 'tennis_racket',
     label: 'tennis racket'
   },
   {
@@ -180,7 +180,7 @@ export const objectOptions = [
     label: 'plate'
   },
   {
-    value: 'wine glass',
+    value: 'wine_glass',
     label: 'wine glass'
   },
   {
@@ -228,7 +228,7 @@ export const objectOptions = [
     label: 'carrot'
   },
   {
-    value: 'hot dog',
+    value: 'hot_dog',
     label: 'hot dog'
   },
   {
@@ -252,7 +252,7 @@ export const objectOptions = [
     label: 'couch'
   },
   {
-    value: 'potted plant',
+    value: 'potted_plant',
     label: 'potted plant'
   },
   {
@@ -264,7 +264,7 @@ export const objectOptions = [
     label: 'mirror'
   },
   {
-    value: 'dining table',
+    value: 'dining_table',
     label: 'dining table'
   },
   {
@@ -304,7 +304,7 @@ export const objectOptions = [
     label: 'keyboard'
   },
   {
-    value: 'cell phone',
+    value: 'cell_phone',
     label: 'cell phone'
   },
   {
@@ -348,11 +348,11 @@ export const objectOptions = [
     label: 'scissors'
   },
   {
-    value: 'teddy bear',
+    value: 'teddy_bear',
     label: 'teddy bear'
   },
   {
-    value: 'hair drier',
+    value: 'hair_drier',
     label: 'hair drier'
   },
   {
@@ -360,7 +360,7 @@ export const objectOptions = [
     label: 'toothbrush'
   },
   {
-    value: 'hair brush',
+    value: 'hair_brush',
     label: 'hair brush'
   },
 ]

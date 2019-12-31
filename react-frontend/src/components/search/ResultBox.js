@@ -35,6 +35,10 @@ function getSameVideo (videoNumber, videoList) {
   return myVideos
 }
 
+function getMinute (second) {
+  
+}
+
 function ResultBox({ imageSrc, width, height, onClick, frameInfo, videoNumber, videoList }) {
   const classes = useStyles()
   return (
@@ -43,8 +47,14 @@ function ResultBox({ imageSrc, width, height, onClick, frameInfo, videoNumber, v
         <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position="left center">
           <div>
             <ReactPlayer url={getVideoUrl(videoNumber)} controls={true} />
-          {frameInfo}
+          {videoNumber}/
+          {frameInfo}/
+          {Math.trunc(frameInfo/60)}:
+          {frameInfo - Math.trunc(frameInfo/60) * 60}
           {/* {getSameVideo(videoNumber, videoList)} */}
+          <div>
+            sadsa
+          </div>
           </div>
         </Popup>
       {/* </div> */}

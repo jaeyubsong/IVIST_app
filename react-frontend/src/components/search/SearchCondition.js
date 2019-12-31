@@ -194,7 +194,7 @@ const SearchCondition = (props) => {
                       options={colorOptions}
                       value={[ {label: mapData.color }]}
                       onChange={(option) => {
-                        changeColor(0, { color: option.value });
+                        changeColor(mapIndex, { color: option.value });
                       }}
                     />
                   </Box>
