@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 export const objectOptions = [
   {
     value: 'person',
@@ -369,57 +370,59 @@ let familiar_color = {'aqua': '#00ffff', 'black': '#000000', 'blue': '#0000ff', 
                  'navy': '#000080', 'olive': '#808000', 'purple': '#800080', 'red': '#ff0000',
                  'silver': '#c0c0c0', 'teal': '#008080', 'white': '#ffffff', 'yellow': '#ffff00',
                  'orange': '#ffa500'}
+
+let color_url = process.env.PUBLIC_URL + '/color/'
 export const colorOptions = [
   {
-    value: 'aqua', label: 'aqua', hex: '00ffff'
+    value: 'aqua', label: <div><img src={color_url + '00ffff.png'} width={10}/>{' '}aqua</div>, color: '#00ffff'
   },
   {
-    value: 'black', label: 'black', hex: '#000000'
+    value: 'black', label: <div><img src={color_url + '000000.png'} width={10}/>{' '}black</div>, color: '#000000'
   },
   {
-    value: 'blue', label: 'blue', hex: '#0000ff'
+    value: 'blue', label: <div><img src={color_url + '0000ff.png'} width={10}/>{' '}blue</div>, color: '#0000ff'
   },
   {
-    value: 'fuchsia', label: 'fuchsia', hex: '#ff00ff'
+    value: 'fuchsia', label: <div><img src={color_url + 'ff00ff.png'} width={10}/>{' '}fuchsia</div>, color: '#ff00ff'
   },
   {
-    value: 'green', label: 'green', hex: '#008000'
+    value: 'green', label: <div><img src={color_url + '008000.png'} width={10}/>{' '}green</div>, color: '#008000'
   },
   {
-    value: 'gray', label: 'gray', hex: '#808080'
+    value: 'gray', label: <div><img src={color_url + '808080.png'} width={10}/>{' '}gray</div>, color: '#808080'
   },
   {
-    value: 'lime', label: 'lime', hex: '#00ff00'
+    value: 'lime', label: <div><img src={color_url + '00ff00.png'} width={10}/>{' '}lime</div>, color: '#00ff00'
   },
   {
-    value: 'maroon', label: 'maroon', hex: '#800000'
+    value: 'maroon', label: <div><img src={color_url + '800000.png'} width={10}/>{' '}maroon</div>, color: '#800000'
   },
   {
-    value: 'navy', label: 'navy', hex: '#000080'
+    value: 'navy', label: <div><img src={color_url + '000080.png'} width={10}/>{' '}navy</div>, color: '#000080'
   },
   {
-    value: 'olive', label: 'olive', hex: '#808000'
+    value: 'olive', label: <div><img src={color_url + '808000.png'} width={10}/>{' '}olive</div>, color: '#808000'
   },
   {
-    value: 'purple', label: 'purple', hex: '#800080'
+    value: 'purple', label: <div><img src={color_url + '800080.png'} width={10}/>{' '}purple</div>, color: '#800080'
   },
   {
-    value: 'red', label: 'red', hex: '#ff0000'
+    value: 'red', label: <div><img src={color_url + 'ff0000.png'} width={10}/>{' '}red</div>, color: '#ff0000'
   },
   {
-    value: 'silver', label: 'silver', hex: '#c0c0c0'
+    value: 'silver', label: <div><img src={color_url + 'c0c0c0.png'} width={10}/>{' '}silver</div>, color: '#c0c0c0'
   },
   {
-    value: 'teal', label: 'teal', hex: '#008080'
+    value: 'teal', label: <div><img src={color_url + '008080.png'} width={10}/>{' '}teal</div>, color: '#008080'
   },
   {
-    value: 'white', label: 'white', hex: '#ffffff'
+    value: 'white', label: <div><img src={color_url + 'ffffff.png'} width={10}/>{' '}white</div>, color: '#ffffff'
   },
   {
-    value: 'yellow', label: 'yellow', hex: '#ffff00'
+    value: 'yellow', label: <div><img src={color_url + 'ffff00.png'} width={10}/>{' '}yellow</div>, color: '#ffff00'
   },
   {
-    value: 'orange', label: 'orange', hex: '#ffa500'
+    value: 'orange', label: <div><img src={color_url + 'ffa500.png'} width={10}/>{' '}orange</div>, color: '#ffa500'
   }
 ]
 
