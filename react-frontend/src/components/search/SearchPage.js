@@ -3,6 +3,8 @@ import SearchCondition from './SearchCondition'
 import SearchResult from './SearchResult';
 import Grid from '@material-ui/core/Grid'
 import { fetchData, sendQuery } from 'api/api'
+import ReactPlayer from 'react-player'
+import Popup from 'reactjs-popup'
 import Radio from '@material-ui/core/Radio'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -39,13 +41,23 @@ const SearchPage = () => {
 
 
   const onSave = (video, second, frame) => {
-    const tempArray = [...submitted, {"video": video, "second": second}]
+    const tempArray = [...submitted, {"video": video, "second": second, "frame": frame}]
     setSubmitted(tempArray)
-    console.log("Clicked submit with video");
+    console.log("Clicked save with video");
     console.log("second", second)
     console.log("frame", frame)
     console.log("Submitted")
     console.log(submitted)
+  }
+
+  const getVideoUrl = (video) => {
+    let myVideo = video.toString()
+    while (myVideo.length < 5) {
+      myVideo = '0' + myVideo
+    }
+    let url = process.env.PUBLIC_URL + '/dataset/video_data/' + myVideo + '.mp4'
+    // console.log(url)
+    return url
   }
 
   // Hook
@@ -99,6 +111,12 @@ const SearchPage = () => {
     setSubmitted(tempArray);
   }
 
+  const onClickSubmit = (video, frame) => {
+    console.log("Submit with")
+    console.log("video", video)
+    console.log("frame", frame)
+  }
+
   return (
     <div>
       {console.log("Reload this")}
@@ -127,11 +145,29 @@ const SearchPage = () => {
           </div>
           {submitted.map((mapData, mapIndex) => (
             <div>
-              {"Video: "}{mapData['video']}
+              <Popup trigger={
+                <text style={{color: 'blue', textDecorationLine: 'underline'}} onPress={console.log("Clicked")}>
+                  {"Video: "}{mapData['video']}
+                  {', Time:'}
+                  {Math.trunc(mapData['second']/60)}:
+                  {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}
+                </text>
+              }>
+                <ReactPlayer url={getVideoUrl(mapData['video'])} controls={true} />
+              </Popup>
+              {/* {"Video: "}{mapData['video']}
               {', Time:'}
               {Math.trunc(mapData['second']/60)}:
-              {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}
-              <button onClick={() => console.log("ASA")}>Submit</button>
+              {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)} */}
+              <Popup trigger={<button>Submit</button>}>
+                {"Video: "}{mapData['video']}
+                {', Time:'}
+                {Math.trunc(mapData['second']/60)}:
+                {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}<br></br>
+                Mode: {mode}<br></br>
+                Click confirm to submit
+                <button onClick={()=>onClickSubmit(mapData['video'], mapData['frame'])}>Confirm</button>
+              </Popup>
               <IconButton aria-label="Delete" onClick={() => removeOneSubmitted(mapIndex)}>
                 <DeleteIcon fontSize="small" />
               </IconButton>

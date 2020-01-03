@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function getVideoUrl (video) {
+const getVideoUrl = (video) => {
   let myVideo = video.toString()
   while (myVideo.length < 5) {
     myVideo = '0' + myVideo
@@ -61,24 +61,20 @@ function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNu
         <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position={(mapIndex % 10) > 5 ? "left center" : "right center"}>
           <div>
             <ReactPlayer url={getVideoUrl(videoNumber)} controls={true} />
-            {videoNumber}/
-            {videoSecond}/
+            Video: {videoNumber} <br></br>Time: &nbsp;
             {Math.trunc(videoSecond/60)}:
-            {+(videoSecond - Math.trunc(videoSecond/60) * 60).toFixed(2)}
+            {+(videoSecond - Math.trunc(videoSecond/60) * 60).toFixed(0)}
             {/* {getSameVideo(videoNumber, videoList)} */}
-            <div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min Sec
-            </div>
             <div>
               startTime (In format Minute:Second)
             </div>
             <div>
-              <input style={{width: "30px"}} 
+              <input style={{width: "40px"}} 
                 type="number" 
                 value={startMinute} 
                 onChange={setStartMinute}
                 placeholder="Minute" />:
-              <input style={{width: "30px"}} 
+              <input style={{width: "40px"}} 
                 type="number" 
                 value={startSecond} 
                 onChange={setStartSecond}
