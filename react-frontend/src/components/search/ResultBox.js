@@ -39,7 +39,7 @@ function getMinute (second) {
   
 }
 
-function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNumber, onSave, mapIndex }) {
+function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNumber, onSave, mapIndex, mode, shot }) {
   const classes = useStyles()
   const [startMinute, setStartMin] = useState(0.0)
   const [startSecond, setStartSec] = useState(0.0)
@@ -55,20 +55,53 @@ function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNu
 
   const setStartMinute = changeTime(setStartMin);
   const setStartSecond = changeTime(setStartSec);
+  const RESULT_PER_LINE = 10
   return (
     <div>
       {/* <div> */}
-        <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position={(mapIndex % 10) > 5 ? "left center" : "right center"}>
+        <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position={(mapIndex % RESULT_PER_LINE) > 5 ? "left center" : "right center"}>
           <div>
             <ReactPlayer url={getVideoUrl(videoNumber)} controls={true} />
             Video: {videoNumber} <br></br>Time: &nbsp;
             {Math.trunc(videoSecond/60)}:
             {+(videoSecond - Math.trunc(videoSecond/60) * 60).toFixed(0)}
             {/* {getSameVideo(videoNumber, videoList)} */}
+            {mode == 'KIS' && 
             <div>
-              startTime (In format Minute:Second)
-            </div>
+              <div>
+                startTime (In format Minute:Second)
+              </div>
+              <div>
+                <input style={{width: "40px"}} 
+                  type="number" 
+                  value={startMinute} 
+                  onChange={setStartMinute}
+                  placeholder="Minute" />:
+                <input style={{width: "40px"}} 
+                  type="number" 
+                  value={startSecond} 
+                  onChange={setStartSecond}
+                  placeholder="Second" />
+                <button onClick={() => {
+                  let videoSecond = (+startMinute * 60) + (+startSecond)
+                  onSave(videoNumber, videoSecond, Math.round((+videoSecond) * fps))
+                }}>Save</button>
+              </div>
+            </div>  
+          }
+            {mode == 'AVS' && 
             <div>
+              <div>
+                Shot#: {shot}
+              </div>
+              <div>
+                <button onClick={() => {
+                  onSave(videoNumber, Math.round(videoSecond), Math.round((+videoSecond) * fps), shot)
+                }}>Save</button>
+              </div>
+            </div>  
+          }
+            {/* <div>
               <input style={{width: "40px"}} 
                 type="number" 
                 value={startMinute} 
@@ -83,7 +116,7 @@ function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNu
                 let videoSecond = (+startMinute * 60) + (+startSecond)
                 onSave(videoNumber, videoSecond, Math.round((+videoSecond) * fps))
               }}>Save</button>
-            </div>
+            </div> */}
           </div>
         </Popup>
       {/* </div> */}

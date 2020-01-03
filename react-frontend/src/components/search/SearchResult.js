@@ -117,6 +117,8 @@ function SearchResult (props) {
                     onClick={() => console.log(value)}
                     videoSecond={value['startSecond']}
                     videoNumber={value['video']}
+                    mode={props.mode}
+                    shot={value['keyFrame']}
                     // videoList={props.searchResult.data}
                     fps={60}
                     onSave={props.onSave}

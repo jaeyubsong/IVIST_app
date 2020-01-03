@@ -40,12 +40,14 @@ const SearchPage = () => {
   }
 
 
-  const onSave = (video, second, frame) => {
-    const tempArray = [...submitted, {"video": video, "second": second, "frame": frame}]
+  const onSave = (video, second=0, frame=0, shot=0) => {
+    const tempArray = [...submitted, {"video": video, "second": second, "frame": frame, "shot": shot, "mode": mode}]
     setSubmitted(tempArray)
     console.log("Clicked save with video");
     console.log("second", second)
     console.log("frame", frame)
+    console.log("shot", shot)
+
     console.log("Submitted")
     console.log(submitted)
   }
@@ -138,7 +140,7 @@ const SearchPage = () => {
         inputProps={{ 'aria-label': 'A' }}
       />
       <Grid container spacing={2} justify="center">
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           Left grid
           <div>
             <button onClick={clearSubmitted}>Clear</button>
@@ -151,6 +153,7 @@ const SearchPage = () => {
                   {', Time:'}
                   {Math.trunc(mapData['second']/60)}:
                   {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}
+                  {mapData['mode'] == 'AVS' && <text>, Shot: {mapData['shot']}</text>}
                 </text>
               }>
                 <ReactPlayer url={getVideoUrl(mapData['video'])} controls={true} />
@@ -160,13 +163,29 @@ const SearchPage = () => {
               {Math.trunc(mapData['second']/60)}:
               {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)} */}
               <Popup trigger={<button>Submit</button>}>
+                {mapData['mode'] == 'KIS' &&
+              <div>
                 {"Video: "}{mapData['video']}
                 {', Time:'}
                 {Math.trunc(mapData['second']/60)}:
                 {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}<br></br>
-                Mode: {mode}<br></br>
+                Mode: {mapData['mode']}<br></br>
                 Click confirm to submit
                 <button onClick={()=>onClickSubmit(mapData['video'], mapData['frame'])}>Confirm</button>
+              </div>
+              }
+                {mapData['mode'] == 'AVS' &&
+              <div>
+                {"Video: "}{mapData['video']}
+                {', Time:'}
+                {Math.trunc(mapData['second']/60)}:
+                {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}<br></br>
+                {', shot:'}{mapData['shot']}<br></br>
+                Mode: {mapData['mode']}<br></br>
+                Click confirm to submit
+                <button onClick={()=>onClickSubmit(mapData['video'], mapData['frame'])}>Confirm</button>
+              </div>
+              }
               </Popup>
               <IconButton aria-label="Delete" onClick={() => removeOneSubmitted(mapIndex)}>
                 <DeleteIcon fontSize="small" />
@@ -174,12 +193,12 @@ const SearchPage = () => {
             </div>
           ))}
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           <SearchCondition onClickSearch={onClickSearch}/>
-          <SearchResult searchResult={searchResult} onSave={onSave}/>
+          <SearchResult searchResult={searchResult} onSave={onSave} mode={mode}/>
         </Grid>  
         <Grid item xs={2}>
-          Right grid
+          {/* Right grid */}
         </Grid> 
       </Grid>
     </div>
