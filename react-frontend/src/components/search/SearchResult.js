@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -42,33 +42,92 @@ function getImageUrl (video, frame) {
 }
 
 
-
+const VIDEO_PER_PAGE = 100
 function SearchResult (props) {
-  const [spacing] = useState(2)
 
-  const sampleData = getImage()
+  const [curPage, setCurPage] = useState(1)
+  const [curPageVideo, setCurPageVideo] = useState([])
+
+  const changeCurrentPageVideo = (allVideo, newPage) => {
+    let startIndex = VIDEO_PER_PAGE * (newPage-1)
+    let end = Math.min(startIndex + VIDEO_PER_PAGE, allVideo.length)
+    const tempArray = allVideo.slice(startIndex, end)
+    console.log("Called change current page video, total", allVideo.length)
+    console.log("startIndex", startIndex)
+    setCurPageVideo(tempArray)
+  }
+
+  useEffect(() => {
+    setCurPage(1)
+    changeCurrentPageVideo(props.searchResult.data, 1)
+  }, [props.searchResult])
+
   return (
     <div className='searchResult'>
+      {/* {props.searchResult.searchComplete == true &&
+      <div>
+        {curPage > 1 && 
+          <button onClick={() => setCurPage(curPage-1)}>
+            Prev
+          </button>
+        }
+        Page {curPage}
+        {props.searchResult.data.length % VIDEO_PER_PAGE <= curPage &&
+          <button onClick={() => setCurPage(curPage+1)}>
+            Next
+          </button>
+        }
+      </div>
+      } */}
       {props.searchResult.searchComplete == true && 
-      <Grid container spacing={2}>
-        <Grid item>
-          <Grid container justify='center' spacing={2}>
-            {props.searchResult.data.map((value, index) => (
-              <Grid key={index} item>
-                <ResultBox
-                  imageSrc={getImageUrl(value['video'], value['keyFrame'])}
-                  width={100}
-                  onClick={() => console.log(value)}
-                  frameInfo={value['startSecond']}
-                  videoNumber={value['video']}
-                  videoList={props.searchResult.data}
-                />
-                {/* {value} */}
-              </Grid>
-            ))}
+      <div>
+        {/* {changeCurrentPageVideo(props.searchResult.data)} */}
+        <div>
+          {curPage > 1 && 
+            <button onClick={() => {
+              let newPage = curPage - 1
+              setCurPage(newPage)
+              changeCurrentPageVideo(props.searchResult.data, newPage)
+            }}>
+              Prev
+            </button>
+          }
+          Page {curPage}
+          {props.searchResult.data.length % VIDEO_PER_PAGE <= curPage &&
+            <button onClick={() => {
+              let newPage = curPage + 1
+              setCurPage(newPage)
+              changeCurrentPageVideo(props.searchResult.data, newPage)
+            }
+            }>
+              Next
+            </button>
+          }
+        </div>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Grid container justify='center' spacing={2}>
+              {
+                curPageVideo.map((value, index) => (
+                <Grid key={index} item>
+                  <ResultBox
+                    mapIndex={index}
+                    imageSrc={getImageUrl(value['video'], value['keyFrame'])}
+                    width={100}
+                    onClick={() => console.log(value)}
+                    videoSecond={value['startSecond']}
+                    videoNumber={value['video']}
+                    // videoList={props.searchResult.data}
+                    fps={60}
+                    onSave={props.onSave}
+                  />
+                  {/* {value} */}
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
       }
 
     </div>

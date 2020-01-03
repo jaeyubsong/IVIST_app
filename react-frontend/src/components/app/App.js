@@ -15,6 +15,7 @@ function App() {
   const [data, setData] = useState({ hits: [] });
 
 
+
   const fetchData = async () => {
     console.log("fetchData is called");
     const result = await axios({
@@ -30,9 +31,11 @@ function App() {
 
 
 
+
+
   return (
     <div className="App">
-      <p>You clicked me {count} times</p>
+      {/* <p>You clicked me {count} times</p>
       <button onClick={() => {
         console.log("Increase count");
         setCount(count + 1);
@@ -51,7 +54,7 @@ function App() {
       <form action="http://localhost:5000/vbs/upload" method="POST" encType="multipart/form-data">
         <input type="file" name="toUpload" />
         <input type="submit" value="Upload" />
-      </form>
+      </form> */}
 
 
       {/* <form action="http://localhost:5000/vbs/dssss" method='POST'>
@@ -59,6 +62,7 @@ function App() {
         <input type="text" name="name" />
         <input type="submit" value="Search" />
       </form> */}
+
       <SearchPage />
       asdsa
     </div>

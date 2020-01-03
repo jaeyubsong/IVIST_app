@@ -39,26 +39,59 @@ function getMinute (second) {
   
 }
 
-function ResultBox({ imageSrc, width, height, onClick, frameInfo, videoNumber, videoList }) {
+function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNumber, onSave, mapIndex }) {
   const classes = useStyles()
+  const [startMinute, setStartMin] = useState(0.0)
+  const [startSecond, setStartSec] = useState(0.0)
+  const [endMinute, setEndMin] = useState(0.0)
+  const [endSecond, setEndSec] = useState(0.0)
+  // const setStartSecond = event => {
+  //   setStart(event.target.value);
+  // }
+
+  const changeTime = (setTime) => event => {
+    setTime(event.target.value)
+  }
+
+  const setStartMinute = changeTime(setStartMin);
+  const setStartSecond = changeTime(setStartSec);
   return (
     <div>
       {/* <div> */}
-        <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position="left center">
+        <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position={(mapIndex % 10) > 5 ? "left center" : "right center"}>
           <div>
             <ReactPlayer url={getVideoUrl(videoNumber)} controls={true} />
-          {videoNumber}/
-          {frameInfo}/
-          {Math.trunc(frameInfo/60)}:
-          {frameInfo - Math.trunc(frameInfo/60) * 60}
-          {/* {getSameVideo(videoNumber, videoList)} */}
-          <div>
-            sadsa
-          </div>
+            {videoNumber}/
+            {videoSecond}/
+            {Math.trunc(videoSecond/60)}:
+            {+(videoSecond - Math.trunc(videoSecond/60) * 60).toFixed(2)}
+            {/* {getSameVideo(videoNumber, videoList)} */}
+            <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min Sec
+            </div>
+            <div>
+              startTime (In format Minute:Second)
+            </div>
+            <div>
+              <input style={{width: "30px"}} 
+                type="number" 
+                value={startMinute} 
+                onChange={setStartMinute}
+                placeholder="Minute" />:
+              <input style={{width: "30px"}} 
+                type="number" 
+                value={startSecond} 
+                onChange={setStartSecond}
+                placeholder="Second" />
+              <button onClick={() => {
+                let videoSecond = (+startMinute * 60) + (+startSecond)
+                onSave(videoNumber, videoSecond, Math.round((+videoSecond) * fps))
+              }}>Save</button>
+            </div>
           </div>
         </Popup>
       {/* </div> */}
-      {/* {frameInfo}       */}
+      {/* {videoSecond}       */}
     </div>
 
   )
