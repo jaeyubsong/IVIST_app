@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox'
 import { objectOptions, colorOptions } from "./dropdownOptions";
+import Popup from 'reactjs-popup'
 
 
 
@@ -112,6 +113,8 @@ const SearchCondition = (props) => {
                       value={[{ label: mapData.object }]}
                       onChange={(option) => {
                         changeObject(mapIndex, { object: option.value, number: mapData.number });
+                        let orderString = "elem" + mapIndex.toString() + ": "
+                        props.addLog("text", "localizedObject", orderString + option.value)
                       }} />
                   </Box>
                   <Box>
@@ -124,6 +127,12 @@ const SearchCondition = (props) => {
                       checked={mapData.checked}
                       onChange={(event) => {
                         changeObject(mapIndex, {checked: (event.target.checked) });
+                        let checked = "check"
+                        if (event.target.checked == false) {
+                          checked = "uncheck"
+                        }
+                        let orderString = "elem" + mapIndex.toString() + ": " + checked
+                        props.addLog("text", "localizedObject", orderString)
                       }}
                       value="checkedA"
                       inputProps={{
@@ -132,7 +141,9 @@ const SearchCondition = (props) => {
                     />
                   </Box>
                   <Box>
-                    <IconButton aria-label="Delete" onClick={() => removeObject(mapIndex)}>
+                    <IconButton aria-label="Delete" onClick={() => {
+                      removeObject(mapIndex)
+                    }}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </Box>
@@ -158,6 +169,9 @@ const SearchCondition = (props) => {
               <Box>
                 <input style={{width: "150px"}} type="text" value={mapData.text} onChange={(event) => {
                   changeOcr(mapIndex, { text: event.target.value });
+                  let orderString = "elem" + mapIndex.toString() + ": "
+                  props.addLog("text", "OCR", orderString + event.target.value)
+
                 }} />
               </Box>
               <Box>
@@ -195,6 +209,8 @@ const SearchCondition = (props) => {
                       value={[ {label: mapData.color }]}
                       onChange={(option) => {
                         changeColor(mapIndex, { color: option.value });
+                        let orderString = "elem" + mapIndex.toString() + ": "
+                        props.addLog("filter", "dominantColor", orderString + option.value)
                       }}
                     />
                   </Box>
@@ -226,7 +242,17 @@ const SearchCondition = (props) => {
 
         <Grid item>
           Sentence
-          <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={addSentence}>
+          <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={() => {
+            if (objectInfo.length > 0 || ocrInfo.length > 0 || colorInfo.length > 0) {
+              alert("Please remove all fields in Object, Text and Color");
+            }
+            else if (sentenceInfo.length > 0) {
+              alert("You can input only one sentence query");
+            }
+            else {
+              addSentence()
+            }
+          }}>
             <AddIcon />
           </Fab>
           {sentenceInfo.map((mapData, mapIndex) => (

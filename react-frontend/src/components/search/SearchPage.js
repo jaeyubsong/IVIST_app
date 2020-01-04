@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SearchCondition from './SearchCondition'
 import SearchResult from './SearchResult';
 import Grid from '@material-ui/core/Grid'
@@ -16,7 +16,18 @@ const SearchPage = () => {
   const [mode, setMode] = useLocalStorage('mode', 'KIS')
   const [submitted, setSubmitted] = useLocalStorage('submitted', [])
   const [memberId, setMemberId] = useLocalStorage('memberId', 0)
-  const [teamId, setTeamId] = useLocalStorage('teamId', 3)
+  const [teamId, setTeamId] = useLocalStorage('teamId', "3")
+  const [log, setLog] = useLocalStorage('log', [])
+
+  useInterval(() => {
+    // console.log("Do this every 10 seconds")
+    let ts = Math.floor(Date.now() / 1000)
+    let logToSend = {"teamId": teamId, "memberId": memberId, 
+    "timestamp": ts, "type": "interaction", "events": log}
+    // console.log(ts)
+    console.log(logToSend)
+    // setLog([])
+  }, 3000)
 
   const onClickSearch = async (...options) => {
     console.log("Clicked search");
@@ -39,6 +50,42 @@ const SearchPage = () => {
   const addSearchOption = (infoArray, setInfoArray, initialObject) => () => {
     const tempArray = [...infoArray, initialObject];
     setInfoArray(tempArray);
+  }
+  const addLog = (category, type, value) => {
+    let ts = Math.floor(Date.now() / 1000)
+    let data = {"timestamp": ts, "category": category, "type": type, "value": value}
+    console.log("call addLog with data")
+    console.log(data)
+    if (log.length > 0) {
+      console.log("last element:")
+      let lastElement = log[log.length - 1]
+      console.log(lastElement)
+      if (category === "text"
+      && type === "OCR" 
+      && lastElement["category"] === "text" 
+      && lastElement["type"] === "OCR"
+      && lastElement["value"].substring(0, 7) === value.substring(0, 7)
+      ) {
+        // const popped_original = [...log].pop()
+        console.log("Inside remove last ocr")
+        const tempArray = [...log.slice(0, log.length-1), data]
+        console.log(tempArray)
+        setLog(tempArray)
+      }   
+      else {
+        const tempArray = [...log, data];
+        setLog(tempArray)
+        console.log("sliced array")
+        console.log(tempArray)  
+      }   
+    }
+    else {
+      const tempArray = [...log, data];
+      setLog(tempArray)
+      console.log("sliced array")
+      console.log(tempArray)
+    }
+
   }
 
 
@@ -101,11 +148,33 @@ const SearchPage = () => {
     return [storedValue, setValue];
   }
 
+
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
+
   const setRadioValue = event => {
     setMode(event.target.value);
   }
 
   const clearSubmitted = () => {
+    addLog("browsing", "resetAll", "Clear frames saved for submission")
     setSubmitted([])
   }
 
@@ -128,6 +197,13 @@ const SearchPage = () => {
     console.log("shot", shot)
   }
 
+
+  const resetAll = () => {
+    addLog("browsing", "resetAll", "Clear every saved values")
+    setSubmitted([])
+    setLog([])
+  }
+
   return (
     <div>
       {console.log("Reload this")}
@@ -148,6 +224,17 @@ const SearchPage = () => {
         name="radio-button"
         inputProps={{ 'aria-label': 'A' }}
       />
+      TeamID
+      <input style={{width: "50px"}} type="text" value={teamId} onChange={(event) => {
+        setTeamId(event.target.value);
+      }} />
+      &nbsp;
+      MemberID
+      <input style={{width: "50px"}} type="number" value={memberId} onChange={(event) => {
+        setMemberId(parseInt(event.target.value));
+      }} />
+      <button onClick={resetAll}>Reset all</button>
+
       <Grid container spacing={2} justify="center">
         <Grid item xs={3}>
           Left grid
@@ -203,8 +290,8 @@ const SearchPage = () => {
           ))}
         </Grid>
         <Grid item xs={7}>
-          <SearchCondition onClickSearch={onClickSearch}/>
-          <SearchResult searchResult={searchResult} onSave={onSave} mode={mode}/>
+          <SearchCondition onClickSearch={onClickSearch} addLog={addLog}/>
+          <SearchResult searchResult={searchResult} onSave={onSave} mode={mode} addLog={addLog}/>
         </Grid>  
         <Grid item xs={2}>
           {/* Right grid */}
