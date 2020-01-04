@@ -93,14 +93,17 @@ function SearchResult (props) {
             </button>
           }
           Page {curPage}
-          {props.searchResult.data.length % VIDEO_PER_PAGE <= curPage &&
+          {props.searchResult.data.length / VIDEO_PER_PAGE >= curPage &&
             <button onClick={() => {
               let newPage = curPage + 1
+              console.log("(next)data length is", props.searchResult.data.length)
               setCurPage(newPage)
               changeCurrentPageVideo(props.searchResult.data, newPage)
             }
             }>
               Next
+              {console.log("(next)data length is", props.searchResult.data.length)}
+              {console.log("cur page is", curPage)}
             </button>
           }
         </div>

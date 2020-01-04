@@ -15,6 +15,8 @@ const SearchPage = () => {
   const [searchResult, setSearchResult] = useState({searchComplete: false, data: []})
   const [mode, setMode] = useLocalStorage('mode', 'KIS')
   const [submitted, setSubmitted] = useLocalStorage('submitted', [])
+  const [memberId, setMemberId] = useLocalStorage('memberId', 0)
+  const [teamId, setTeamId] = useLocalStorage('teamId', 3)
 
   const onClickSearch = async (...options) => {
     console.log("Clicked search");
@@ -40,7 +42,7 @@ const SearchPage = () => {
   }
 
 
-  const onSave = (video, second=0, frame=0, shot=0) => {
+  const onSave = (video, second=0, frame=0, shot=0, mode="KIS") => {
     const tempArray = [...submitted, {"video": video, "second": second, "frame": frame, "shot": shot, "mode": mode}]
     setSubmitted(tempArray)
     console.log("Clicked save with video");
@@ -113,10 +115,17 @@ const SearchPage = () => {
     setSubmitted(tempArray);
   }
 
-  const onClickSubmit = (video, frame) => {
+  const onClickSubmit_KIS = (video, frame) => {
     console.log("Submit with")
     console.log("video", video)
     console.log("frame", frame)
+  }
+
+
+  const onClickSubmit_AVS = (video, shot) => {
+    console.log("Submit AVS with")
+    console.log("video", video)
+    console.log("shot", shot)
   }
 
   return (
@@ -171,7 +180,7 @@ const SearchPage = () => {
                 {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}<br></br>
                 Mode: {mapData['mode']}<br></br>
                 Click confirm to submit
-                <button onClick={()=>onClickSubmit(mapData['video'], mapData['frame'])}>Confirm</button>
+                <button onClick={()=>onClickSubmit_KIS(mapData['video'], mapData['frame'])}>Confirm</button>
               </div>
               }
                 {mapData['mode'] == 'AVS' &&
@@ -183,7 +192,7 @@ const SearchPage = () => {
                 {', shot:'}{mapData['shot']}<br></br>
                 Mode: {mapData['mode']}<br></br>
                 Click confirm to submit
-                <button onClick={()=>onClickSubmit(mapData['video'], mapData['frame'])}>Confirm</button>
+                <button onClick={()=>onClickSubmit_AVS(mapData['video'], mapData['shot'])}>Confirm</button>
               </div>
               }
               </Popup>
