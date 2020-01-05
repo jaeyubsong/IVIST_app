@@ -44,6 +44,66 @@ const SearchPage = () => {
     Object.assign(newSearchResult, {searchComplete: true, data: result.data});
     console.log(newSearchResult);
     setSearchResult(newSearchResult);
+
+    // Make reseut log
+    let usedCategories = []
+    let usedTypes = []
+    let sortType = []
+    let resultSetAvailability = ""
+    for (let i = 0; i < flattened.length; i++) {
+      if (flattened[i]["type"] === "object" && flattened[i]["object"] != "") {
+        usedCategories.push("Text")
+        usedTypes.push("localizedObject")
+        sortType.push("localizedObject")
+      }
+      else if (flattened[i]["type"] === "text" && flattened[i]["text"] != "") {
+        usedCategories.push("Text")
+        usedTypes.push("OCR")
+      }
+      else if (flattened[i]["type"] === "color" && flattened[i]["color"] != "") {
+        usedCategories.push("filter")
+        usedTypes.push("dominantColor")
+      }
+      else if (flattened[i]["type"] === "sentence" && flattened[i]["sentence"] != "") {
+        usedCategories.push("Text")
+        usedTypes.push("jointEmbedding")
+        sortType.push("jointEmbedding")
+      }
+    }
+    usedCategories = [...new Set(usedCategories)]
+    usedTypes = [...new Set(usedTypes)]
+    sortType = [...new Set(sortType)]
+    if (result.data.length < 100) {
+      resultSetAvailability = "all"
+    }
+    else if (result.data.length <= 10000) {
+      resultSetAvailability = "top"
+    }
+    else {
+      resultSetAvailability = "sample"
+    }
+    
+    if (sortType.length > 0 && sortType[0] == "jointEmbedding") {
+      resultSetAvailability = "sample"
+    }
+    let results_array = []
+    let arr_length = Math.min(result.data.length, 10000)
+    for (let i = 0; i < arr_length; i++) {
+      let video = result.data[i]["video"].toString()
+      let shot = result.data[i]["keyFrame"]
+      let score = result.data[i]["Sorting_Score"]
+      let rank = i + 1
+      while (video.length < 5) {
+        video = "0" + video
+      }
+      results_array.push({"video": video, "shot": shot, "score": score, "rank": rank})
+    }
+    let ts = Math.floor(Date.now() / 1000)
+    let result_logging = {"teamId": teamId, "memberId": memberId, "timestamp": ts, "usedCategories": usedCategories, "usedTypes": usedTypes,
+                      "sortType": sortType, "resultSetAvailability": resultSetAvailability, "type": "result", "results": results_array}
+    // sent this log
+    console.log("Send this to result log")
+    console.log(result_logging)
   }
 
 
@@ -71,7 +131,19 @@ const SearchPage = () => {
         const tempArray = [...log.slice(0, log.length-1), data]
         console.log(tempArray)
         setLog(tempArray)
-      }   
+      }  
+      else if (category === "text"
+      && type === "jointEmbedding" 
+      && lastElement["category"] === "text" 
+      && lastElement["type"] === "jointEmbedding"
+      && lastElement["value"].substring(0, 7) === value.substring(0, 7)
+      ) {
+        // const popped_original = [...log].pop()
+        console.log("Inside remove last sentence")
+        const tempArray = [...log.slice(0, log.length-1), data]
+        console.log(tempArray)
+        setLog(tempArray)
+      } 
       else {
         const tempArray = [...log, data];
         setLog(tempArray)

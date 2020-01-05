@@ -260,6 +260,8 @@ const SearchCondition = (props) => {
               <Box>
                 <input style={{width: "150px"}} type="text" value={mapData.sentence} onChange={(event) => {
                   changeSentence(mapIndex, { sentence: event.target.value });
+                  let orderString = "elem" + mapIndex.toString() + ": "
+                  props.addLog("text", "jointEmbedding", orderString + event.target.value)
                 }} />
               </Box>
               <Box>
