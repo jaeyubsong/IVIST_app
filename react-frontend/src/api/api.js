@@ -31,7 +31,9 @@ export const sendQuery = async (myData) => {
  export const sendInteractionLog = async (team, member, interaction_log) => {
   // let default_url = 'http://192.168.0.7:80/vbs/submit?team=' + team.toString() 
   // + '&member=' + member.toString()
-  let default_url = 'http://192.168.0.7:80/vbs/log'
+  // let default_url = 'http://192.168.0.7:80/vbs/log'
+  let default_url = 'http://192.168.0.7:80/vbs/log?team=' + team.toString() + '&member=' + member.toString()
+
   // + '&member=' + member.toString()
   console.log("default_url")
   console.log(default_url)
