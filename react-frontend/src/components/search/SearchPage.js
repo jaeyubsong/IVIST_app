@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import SearchCondition from './SearchCondition'
 import SearchResult from './SearchResult';
 import Grid from '@material-ui/core/Grid'
-import { fetchData, sendQuery } from 'api/api'
+import { fetchData, sendQuery, sendInteractionLog, sendKISResult, sendAVSResult } from 'api/api'
 import ReactPlayer from 'react-player'
 import Popup from 'reactjs-popup'
 import Radio from '@material-ui/core/Radio'
@@ -16,7 +16,7 @@ const SearchPage = () => {
   const [mode, setMode] = useLocalStorage('mode', 'KIS')
   const [submitted, setSubmitted] = useLocalStorage('submitted', [])
   const [memberId, setMemberId] = useLocalStorage('memberId', 0)
-  const [teamId, setTeamId] = useLocalStorage('teamId', "3")
+  const [teamId, setTeamId] = useLocalStorage('teamId', "2")
   const [log, setLog] = useLocalStorage('log', [])
 
   useInterval(() => {
@@ -25,9 +25,14 @@ const SearchPage = () => {
     let logToSend = {"teamId": teamId, "memberId": memberId, 
     "timestamp": ts, "type": "interaction", "events": log}
     // console.log(ts)
-    console.log(logToSend)
-    // setLog([])
-  }, 3000)
+    console.log("Log to send length is")
+    if (log.length > 0) {
+      let sendResult = sendInteractionLog(teamId, memberId, logToSend)
+      console.log(sendResult)
+      setLog([])
+    }
+
+  }, 15000)
 
   const onClickSearch = async (...options) => {
     console.log("Clicked search");
@@ -260,6 +265,8 @@ const SearchPage = () => {
     console.log("Submit with")
     console.log("video", video)
     console.log("frame", frame)
+    sendKISResult(teamId, memberId, video, frame, log)
+    setLog([])
   }
 
 
@@ -267,6 +274,8 @@ const SearchPage = () => {
     console.log("Submit AVS with")
     console.log("video", video)
     console.log("shot", shot)
+    sendAVSResult(teamId, memberId, video, shot, log)
+    setLog([])
   }
 
 

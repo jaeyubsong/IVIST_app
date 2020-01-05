@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper'
 
 import ResultBox from './ResultBox'
 import sampleImage from 'assets/images/SonHeungMin.jpg'
+import { fps_array } from "./fps_data";
 
 // const BASE_URI = 'http://localhost:5000'
 
@@ -88,6 +89,7 @@ function SearchResult (props) {
               let newPage = curPage - 1
               setCurPage(newPage)
               changeCurrentPageVideo(props.searchResult.data, newPage)
+              props.addLog("browsing", "rankedList", "PreviousPage")
             }}>
               Prev
             </button>
@@ -99,6 +101,7 @@ function SearchResult (props) {
               console.log("(next)data length is", props.searchResult.data.length)
               setCurPage(newPage)
               changeCurrentPageVideo(props.searchResult.data, newPage)
+              props.addLog("browsing", "rankedList", "NextPage")
             }
             }>
               Next
@@ -117,13 +120,13 @@ function SearchResult (props) {
                     mapIndex={index}
                     imageSrc={getImageUrl(value['video'], value['keyFrame'])}
                     width={100}
-                    onClick={() => console.log(value)}
+                    addLog={props.addLog}
                     videoSecond={value['startSecond']}
                     videoNumber={value['video']}
                     mode={props.mode}
                     shot={value['keyFrame']}
                     // videoList={props.searchResult.data}
-                    fps={60}
+                    fps={fps_array[value['video'] - 1]}
                     onSave={props.onSave}
                   />
                   {/* {value} */}

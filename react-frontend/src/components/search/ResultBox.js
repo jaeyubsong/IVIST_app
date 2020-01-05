@@ -39,7 +39,7 @@ function getMinute (second) {
   
 }
 
-function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNumber, onSave, mapIndex, mode, shot }) {
+function ResultBox({ imageSrc, width, height, addLog, videoSecond, fps, videoNumber, onSave, mapIndex, mode, shot }) {
   const classes = useStyles()
   const [startMinute, setStartMin] = useState(0.0)
   const [startSecond, setStartSec] = useState(0.0)
@@ -52,16 +52,19 @@ function ResultBox({ imageSrc, width, height, onClick, videoSecond, fps, videoNu
   const changeTime = (setTime) => event => {
     setTime(event.target.value)
   }
-
   const setStartMinute = changeTime(setStartMin);
   const setStartSecond = changeTime(setStartSec);
   const RESULT_PER_LINE = 10
   return (
     <div>
       {/* <div> */}
-        <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={onClick} />} position={(mapIndex % RESULT_PER_LINE) > 5 ? "left center" : "right center"}>
+        <Popup trigger={<img src={imageSrc} style={{ width: width }} onClick={()=>console.log("Click videovideovideovideovideo")} />} position={(mapIndex % RESULT_PER_LINE) > 5 ? "left center" : "right center"}>
           <div>
-            <ReactPlayer url={getVideoUrl(videoNumber)} controls={true} />
+          {/* {addLog("browsing", "videoPlayer", "play VId" + videoNumber.toString() + "," + "FN" + shot.toString())} */}
+            <ReactPlayer url={getVideoUrl(videoNumber)} controls={true} onReady={()=>{
+              console.log("Video ready to play")
+              addLog("browsing", "videoPlayer", "play VId" + videoNumber.toString() + "," + "FN" + shot.toString())
+            }}/>
             Video: {videoNumber} <br></br>Time: &nbsp;
             {Math.trunc(videoSecond/60)}:
             {+(videoSecond - Math.trunc(videoSecond/60) * 60).toFixed(0)}
