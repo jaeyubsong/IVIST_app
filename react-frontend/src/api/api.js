@@ -29,9 +29,9 @@ export const sendQuery = async (myData) => {
  }
 
  export const sendInteractionLog = async (team, member, interaction_log) => {
-  let default_url = 'http://demo2.itec.aau.at:80/vbs/submit?team=' + team.toString() 
-  + '&member=' + member.toString()
-  // let default_url = 'http://demo2.itec.aau.at:80/vbs/logs'
+  // let default_url = 'http://192.168.0.7:80/vbs/submit?team=' + team.toString() 
+  // + '&member=' + member.toString()
+  let default_url = 'http://192.168.0.7:80/vbs/log'
   // + '&member=' + member.toString()
   console.log("default_url")
   console.log(default_url)
@@ -60,7 +60,7 @@ export const sendQuery = async (myData) => {
  export const sendKISResult = async (team, member, video, frame, interaction_log) => {
   console.log("Send KIS result")
   // let myData = JSON.stringify(inputData)
-  let default_url = 'http://demo2.itec.aau.at:80/vbs/submit?team=' + team.toString() 
+  let default_url = 'http://192.168.0.7:80/vbs/submit?team=' + team.toString() 
   + '&member=' + member.toString() + '&video=' + video.toString() + '&frame=' + frame.toString()
   console.log("default_url")
   console.log(default_url)
@@ -90,7 +90,7 @@ export const sendQuery = async (myData) => {
   // let myData = interaction_log
   const result = await axios({
     method: 'post',
-    url: 'http://demo2.itec.aau.at:80/vbs/submit?team=' + team.toString() 
+    url: 'http://192.168.0.7:80/vbs/submit?team=' + team.toString() 
     + '&member=' + member.toString() + '&video=' + video.toString() + '&shot=' + shot.toString(),
     // url: 'http://143.248.49.97:5000/vbs/interaction_log',
     headers: {

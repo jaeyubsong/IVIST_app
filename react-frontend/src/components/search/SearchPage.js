@@ -32,7 +32,7 @@ const SearchPage = () => {
       setLog([])
     }
 
-  }, 15000)
+  }, 5000)
 
   const onClickSearch = async (...options) => {
     console.log("Clicked search");
