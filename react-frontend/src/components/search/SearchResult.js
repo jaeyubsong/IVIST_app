@@ -82,6 +82,7 @@ function SearchResult (props) {
       } */}
       {props.searchResult.searchComplete == true && 
       <div>
+        Number of results: {props.searchResult.data.length}
         {/* {changeCurrentPageVideo(props.searchResult.data)} */}
         <div>
           {curPage > 1 && 

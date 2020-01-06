@@ -169,6 +169,12 @@ const SearchPage = () => {
   const onSave = (video, second=0, frame=0, shot=0, mode="KIS") => {
     const tempArray = [...submitted, {"video": video, "second": second, "frame": frame, "shot": shot, "mode": mode}]
     setSubmitted(tempArray)
+    if (mode === "KIS") {
+      onClickSubmit_KIS(video, frame)
+    }
+    else if (mode == "AVS") {
+      onClickSubmit_AVS(video, shot)
+    }
     console.log("Clicked save with video");
     console.log("second", second)
     console.log("frame", frame)
@@ -339,31 +345,6 @@ const SearchPage = () => {
               {', Time:'}
               {Math.trunc(mapData['second']/60)}:
               {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)} */}
-              <Popup trigger={<button>Submit</button>}>
-                {mapData['mode'] == 'KIS' &&
-              <div>
-                {"Video: "}{mapData['video']}
-                {', Time:'}
-                {Math.trunc(mapData['second']/60)}:
-                {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}<br></br>
-                Mode: {mapData['mode']}<br></br>
-                Click confirm to submit
-                <button onClick={()=>onClickSubmit_KIS(mapData['video'], mapData['frame'])}>Confirm</button>
-              </div>
-              }
-                {mapData['mode'] == 'AVS' &&
-              <div>
-                {"Video: "}{mapData['video']}
-                {', Time:'}
-                {Math.trunc(mapData['second']/60)}:
-                {+(mapData['second'] - Math.trunc(mapData['second']/60) * 60).toFixed(2)}<br></br>
-                {', shot:'}{mapData['shot']}<br></br>
-                Mode: {mapData['mode']}<br></br>
-                Click confirm to submit
-                <button onClick={()=>onClickSubmit_AVS(mapData['video'], mapData['shot'])}>Confirm</button>
-              </div>
-              }
-              </Popup>
               <IconButton aria-label="Delete" onClick={() => removeOneSubmitted(mapIndex)}>
                 <DeleteIcon fontSize="small" />
               </IconButton>

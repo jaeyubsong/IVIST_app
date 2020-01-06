@@ -88,7 +88,7 @@ function ResultBox({ imageSrc, width, height, addLog, videoSecond, fps, videoNum
                 <button onClick={() => {
                   let videoSecond = (+startMinute * 60) + (+startSecond)
                   onSave(videoNumber, videoSecond, Math.round((+videoSecond) * fps), shot, mode)
-                }}>Save</button>
+                }}>Submit</button>
               </div>
             </div>  
           }
@@ -100,7 +100,7 @@ function ResultBox({ imageSrc, width, height, addLog, videoSecond, fps, videoNum
               <div>
                 <button onClick={() => {
                   onSave(videoNumber, Math.round(videoSecond), Math.round((+videoSecond) * fps), shot, mode)
-                }}>Save</button>
+                }}>Submit</button>
               </div>
             </div>  
           }
